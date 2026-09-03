@@ -1,5 +1,6 @@
 import random
-import markov_namesets as Namesets
+import training_data_names as Namesets
+#      ^^^^^^^^^^^^^^^^^^^ the name here must be the same name as the other file
 
 NEXT_LETTER_ERROR_ATTEMPTS : int = 100
 
