@@ -1,3 +1,6 @@
+### !!! NOTE !!!
+### Please put this file (singly_test.py) in the same folder and hierarchy as node.py,
+### or the import may fail unless you configure Python's module search path.
 from singly import Singly
 
 
