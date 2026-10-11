@@ -103,6 +103,29 @@ class CircularSingly:
         self.__tail.next_node = self.__head # Link tail to new head
 
 
+    def delete(self, node):
+        assert self.__head, "List is empty"
+        
+        current_node = self.__head
+        
+        if current_node == node:
+            self.delete_front()
+        
+        else:
+            previous_node = None
+            
+            while current_node != node:
+                previous_node = current_node
+                current_node = current_node.next_node
+
+            # 98% there is much better way to do this
+            if current_node.next_node == self.__head: # current_node is tail
+                self.delete_back()
+                
+            else:
+                previous_node.next_node = current_node.next_node
+    
+    
     def delete_back(self):
         assert self.__head, "List is empty"
         
