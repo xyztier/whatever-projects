@@ -180,6 +180,23 @@ class CircularSingly:
         return self.__tail
 
 
+    def size(self):
+        if not self.__head:
+            return 0
+        
+        count = 0
+        current_node = self.__head
+        
+        while True:
+            count += 1
+            current_node = current_node.next_node
+            
+            if current_node == self.__head:
+                break
+        
+        return count
+    
+
     def is_circular(self):
         assert self.__head, "List is empty"
         return self.__tail.next_node == self.__head
