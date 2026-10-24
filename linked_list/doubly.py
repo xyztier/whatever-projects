@@ -1,4 +1,4 @@
-from node import Node
+from node import DoublyNode as Node
 
 
 class Doubly:
@@ -115,28 +115,31 @@ class Doubly:
         current_node.previous_node.next_node = None
    
     
-    def display(self, reverse=False):
+    def display(self):
         assert self.__head, "List is empty"
         
         current_node = self.__head
         output = ""
-        
-        if reverse:
-            # Traverse to last node
-            while current_node.next_node:
-                current_node = current_node.next_node
-                
-            # Do the reverse thing
-            while current_node:
-                output += str(current_node.data) + " "
-                current_node = current_node.previous_node
-                
-        else:
-            while current_node:
-                output += str(current_node.data) + " "
-                current_node = current_node.next_node
+
+        while current_node:
+            output += str(current_node.data) + " "
+            current_node = current_node.next_node
         
         return output.strip()
+
+
+    # Doubly
+    def reverse(self):
+        assert self.__head, "List is empty"
+        
+        new_list = Doubly()
+        current_node = self.__head
+        
+        while current_node:
+            new_list.add_first(current_node.data)
+            current_node = current_node.next_node
+        
+        return new_list
 
 
     def get_node(self, key):
@@ -152,52 +155,3 @@ class Doubly:
                 raise ValueError(f"Node with key '{key}' not found")
 
         return current_node
-
-    
-doubly = Doubly()
-
-doubly.add_first(5)
-doubly.add_first(4)
-doubly.add_first(3)
-print("Added 3, 4, 5:\t\t", doubly.display())
-
-doubly.add_last(6)
-print("Added 6 last:\t\t", doubly.display())
-
-doubly.delete_first()
-print("Deleted first:\t\t", doubly.display())
-
-doubly.delete_last()
-print("Deleted last:\t\t", doubly.display())
-
-doubly.add_before(5, 1)
-print("Added 1 before 5:\t", doubly.display())
-
-doubly.add_after(1, 2)
-print("Added 2 after 1:\t", doubly.display())
-
-doubly.delete(5)
-print("Deleted 5:\t\t", doubly.display())
-
-doubly.add_first(3) # 3 4 1 2
-print("Added 3 first:\t\t", doubly.display())
-
-doubly.add_last(8)
-print("Added 8 last:\t\t", doubly.display())
-
-doubly.delete(4)
-print("Deleted 4:\t\t", doubly.display())
-
-doubly.add_after(2, 6)
-print("Added 6 after 2:\t", doubly.display())
-
-doubly.add_after(1, 7)
-print("Added 7 after 1:\t", doubly.display())
-
-doubly.add_before(8, 9)
-print("Added 9 before 8:\t", doubly.display())
-
-doubly.add_after(8, 10)
-print("Added 10 after 8:\t", doubly.display())
-
-print("Reverse:\t\t", doubly.display(reverse=True))
