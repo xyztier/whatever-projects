@@ -1,4 +1,4 @@
-from node import DoublyNode as Node
+from node import Node
 
 
 class Doubly:
@@ -128,7 +128,6 @@ class Doubly:
         return output.strip()
 
 
-    # Doubly
     def reverse(self):
         assert self.__head, "List is empty"
         
@@ -155,3 +154,52 @@ class Doubly:
                 raise ValueError(f"Node with key '{key}' not found")
 
         return current_node
+
+    
+doubly = Doubly()
+
+doubly.add_first(5)
+doubly.add_first(4)
+doubly.add_first(3)
+print("Added 3, 4, 5:\t\t", doubly.display())
+
+doubly.add_last(6)
+print("Added 6 last:\t\t", doubly.display())
+
+doubly.delete_first()
+print("Deleted first:\t\t", doubly.display())
+
+doubly.delete_last()
+print("Deleted last:\t\t", doubly.display())
+
+doubly.add_before(5, 1)
+print("Added 1 before 5:\t", doubly.display())
+
+doubly.add_after(1, 2)
+print("Added 2 after 1:\t", doubly.display())
+
+doubly.delete(5)
+print("Deleted 5:\t\t", doubly.display())
+
+doubly.add_first(3) # 3 4 1 2
+print("Added 3 first:\t\t", doubly.display())
+
+doubly.add_last(8)
+print("Added 8 last:\t\t", doubly.display())
+
+doubly.delete(4)
+print("Deleted 4:\t\t", doubly.display())
+
+doubly.add_after(2, 6)
+print("Added 6 after 2:\t", doubly.display())
+
+doubly.add_after(1, 7)
+print("Added 7 after 1:\t", doubly.display())
+
+doubly.add_before(8, 9)
+print("Added 9 before 8:\t", doubly.display())
+
+doubly.add_after(8, 10)
+print("Added 10 after 8:\t", doubly.display())
+
+print("Reverse:\t\t", doubly.display(reverse=True))
