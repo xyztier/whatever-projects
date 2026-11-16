@@ -4,7 +4,6 @@ class SinglyNode:
         self.data = data
         self.next = None
     
-    
     @property
     def data(self):
         return self.__data
@@ -28,7 +27,6 @@ class DoublyNode:
         self.data = data
         self.next = None
         self.prev = None
-    
     
     @property
     def data(self):
@@ -61,7 +59,6 @@ class PriorityNode:
         self.priority = priority
         self.data = data
         self.next = None
-    
     
     @property
     def priority(self):
