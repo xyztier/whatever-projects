@@ -87,10 +87,11 @@ def run_priority_queue():
     ] # (priority, data)
 
     # enqueue all entries in `given`
+    # you can very muchc change how you input stuff, but i find this easier to debug
     for i in range(len(given)):
-        entry = given[i]            # get the entry; for example, given[0] is (1, 169) and given[2] is (7, 12)
-        priority = entry[0]         # get the first item; for example, if entry is (1, 169), entry[0] is 1
-        data = entry[1]             # get the second item; for example, if entry is (7, 12), entry[1] is 12
+        entry = given[i]              # get the entry; for example, given[0] is (1, 169) and given[2] is (7, 12)
+        priority = entry[0]           # get the first item; for example, if entry is (1, 169), entry[0] is 1
+        data = entry[1]               # get the second item; for example, if entry is (7, 12), entry[1] is 12
         pq.enqueue(priority, data)
 
     print("\n========== PRIORITY QUEUE ==========")
