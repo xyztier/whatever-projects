@@ -72,7 +72,6 @@ class PriorityNode:
     def next(self):
         return self.__next
 
-
     @priority.setter
     def priority(self, priority):
         self.__priority = priority
