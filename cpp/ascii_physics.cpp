@@ -3,6 +3,10 @@
 #include <vector>
 
 
+using std::cout;
+using std::vector;
+
+
 enum class ObjectType {
     None,   // basically air
     Sand,   // ., standard falling object
@@ -21,7 +25,7 @@ struct Object {
     Object(
         ObjectType _type = ObjectType::None, 
         uint16_t _speed = 0,
-        char _symbol = ' '
+        char _symbol = '.'
     ) :
         type(_type), 
         speed(_speed),
@@ -49,41 +53,45 @@ struct WoodObject : Object {
 };
 
 
-using std::cout;
-using std::vector;
-
-
-const uint16_t WORLD_X = 20;    // width
+const uint16_t WORLD_X = 50;    // width
 const uint16_t WORLD_Y = 10;    // height
 const int16_t GRAVITY = 1;      // characters per second
+
 const char X_SYMBOL = '|';
 const char Y_SYMBOL = '-';
 
 
 vector<vector<Object>> objects(WORLD_Y, vector<Object> (WORLD_X));
-vector<vector<char>> world(WORLD_Y + 1, vector<char> (WORLD_X + 1));
+vector<vector<char>> world(WORLD_Y, vector<char> (WORLD_X));
 
 
 int main() {
 
     // Initialize world
-    for (int16_t y = -1; y < WORLD_Y + 1; y++) {
-        for (int16_t x = -1; x < WORLD_X + 1; x++) {
-            cout << x << ',' << y;
-            if (y == -1 || y == WORLD_Y + 1) {
-                world[0][x] = Y_SYMBOL;
-                cout << Y_SYMBOL;
-            } else if (x == WORLD_X + 1) {
+    for (int16_t y = 0; y < WORLD_Y; y++) {
+        for (int16_t x = 0; x < WORLD_X; x++) {
+
+            if (y == 0 || y == WORLD_Y - 1) {
+                if (x == WORLD_X - 1) {
+                    world[y][x] = Y_SYMBOL;
+                    cout << Y_SYMBOL << '\n';
+                } else {
+                    world[y][x] = Y_SYMBOL;
+                    cout << Y_SYMBOL;
+                }
+
+            } else if (x == WORLD_X - 1) {
                 world[y][x] = X_SYMBOL;
                 cout << X_SYMBOL << '\n';
-            } else if (x == -1) {
-                world[y][0] = X_SYMBOL;
+
+            } else if (x == 0) {
+                world[y][x] = X_SYMBOL;
                 cout << X_SYMBOL;
+
             } else {
-                cout << ' ' << x << ',' << y << ' ';
                 Object obj = objects[y][x];
                 world[y][x] = obj.symbol;
-                //cout << obj.symbol;
+                cout << obj.symbol;
             }
         }
     }
