@@ -7,12 +7,12 @@ using std::vector;
 
 
 enum class ObjectType {
-    None,   // basically air
-    Sand,   // ., standard falling object
-    Water,  // ~, sand but faster
-    Lava,   // =, sand but slower
-    Stone,  // @, the man who can't be moved, water + lava
-    Wood,   // %, stone but flammable by lava
+    None,   // Basically air
+    Sand,   // O, Standard falling object
+    Water,  // ~, Sand but faster and more dense
+    Lava,   // =, Water but slower (slower than sand)
+    Stone,  // @, The man who can't be moved, water + lava
+    Wood,   // %, Stone but flammable by lava
 };
 
 
@@ -32,7 +32,7 @@ struct Object {
 };
 
 struct SandObject : Object {
-    SandObject() : Object(ObjectType::Sand, 2, '.') {};
+    SandObject() : Object(ObjectType::Sand, 2, 'O') {};
 };
 
 struct WaterObject : Object {
@@ -52,65 +52,79 @@ struct WoodObject : Object {
 };
 
 
-const uint16_t GRID_X = 50;     // width
-const uint16_t GRID_Y = 10;     // height
-const int16_t GRAVITY = 1;      // characters per second
+// Includes borders, so the true
+// size is (GRID_X - 2) and (GRID_Y - 2)
+const uint16_t GRID_X = 50; // Width
+const uint16_t GRID_Y = 10; // Height
+
+const int16_t GRAVITY = 1;  // Characters per second, maybe
 
 const char X_SYMBOL = '|';
 const char Y_SYMBOL = '-';
 
 
 vector<Object> objects(GRID_Y * GRID_X);
-vector<char> grid(GRID_Y * GRID_X);
+
+
+std::string drawGrid() {
+    std::string world;
+
+    for (uint16_t y = 0; y < GRID_Y; y++) {
+        for (uint16_t x = 0; x < GRID_X; x++) {
+
+            uint16_t index = y * GRID_X + x;
+
+            // Top and bottom walls
+            if (y == 0 || y == GRID_Y - 1) {
+                if (x == GRID_X - 1) {
+                    world += Y_SYMBOL;
+                    world += '\n';
+                } else {
+                    world += Y_SYMBOL;
+                }
+
+            // Right walls
+            } else if (x == GRID_X - 1) {
+                world += X_SYMBOL;
+                world += '\n';
+
+            // Left walls
+            } else if (x == 0) {
+                world += X_SYMBOL;
+
+            // Inside the walls (the actual grid)
+            } else {
+                Object obj = objects[index];
+                world += obj.symbol;
+            }
+        } // width (x) loop
+    } // height (y) loop
+
+    return world;
+}
 
 
 int main() {
 
     std::string world;
+    std::string inputMenu;
 
     while (true) {
 
-        // Draw world
-        for (uint16_t y = 0; y < GRID_Y; y++) {
-            for (uint16_t x = 0; x < GRID_X; x++) {
+        world = drawGrid();
 
-                uint16_t index = y * GRID_X + x;
+        // (inputMenu draw here)
 
-                // Top and bottom walls
-                if (y == 0 || y == GRID_Y - 1) {
-                    if (x == GRID_X - 1) {
-                        grid[index] = Y_SYMBOL;
-                        world += Y_SYMBOL;
-                        world += '\n';
-                    } else {
-                        grid[index] = Y_SYMBOL;
-                        world += Y_SYMBOL;
-                    }
 
-                // Right walls
-                } else if (x == GRID_X - 1) {
-                    grid[index] = X_SYMBOL;
-                    world += X_SYMBOL;
-                    world += '\n';
-
-                // Left walls
-                } else if (x == 0) {
-                    grid[index] = X_SYMBOL;
-                    world += X_SYMBOL;
-
-                // Inside the walls
-                } else {
-                    Object obj = objects[index];
-                    grid[index] = obj.symbol;
-                    world += obj.symbol;
-                }
-            } // width (x) loop
-        } // height (y) loop
-
+        // Render strings?
         std::cout << world;
-        world = "";
+        std::cout << inputMenu;
 
-        break;
+        // Clear strings for next iteration
+        world = "";
+        inputMenu = "";
+
+        break; // Temporary, to avoid infinite loop
 
     } // main while loop
 
