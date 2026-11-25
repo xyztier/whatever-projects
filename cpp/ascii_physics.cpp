@@ -3,7 +3,6 @@
 #include <vector>
 
 
-using std::cout;
 using std::vector;
 
 
@@ -25,7 +24,7 @@ struct Object {
     Object(
         ObjectType _type = ObjectType::None, 
         uint16_t _speed = 0,
-        char _symbol = '.'
+        char _symbol = ' '
     ) :
         type(_type), 
         speed(_speed),
@@ -53,48 +52,67 @@ struct WoodObject : Object {
 };
 
 
-const uint16_t WORLD_X = 50;    // width
-const uint16_t WORLD_Y = 10;    // height
+const uint16_t GRID_X = 50;     // width
+const uint16_t GRID_Y = 10;     // height
 const int16_t GRAVITY = 1;      // characters per second
 
 const char X_SYMBOL = '|';
 const char Y_SYMBOL = '-';
 
 
-vector<vector<Object>> objects(WORLD_Y, vector<Object> (WORLD_X));
-vector<vector<char>> world(WORLD_Y, vector<char> (WORLD_X));
+vector<Object> objects(GRID_Y * GRID_X);
+vector<char> grid(GRID_Y * GRID_X);
 
 
 int main() {
 
-    // Initialize world
-    for (int16_t y = 0; y < WORLD_Y; y++) {
-        for (int16_t x = 0; x < WORLD_X; x++) {
+    std::string world;
 
-            if (y == 0 || y == WORLD_Y - 1) {
-                if (x == WORLD_X - 1) {
-                    world[y][x] = Y_SYMBOL;
-                    cout << Y_SYMBOL << '\n';
+    while (true) {
+
+        // Draw world
+        for (uint16_t y = 0; y < GRID_Y; y++) {
+            for (uint16_t x = 0; x < GRID_X; x++) {
+
+                uint16_t index = y * GRID_X + x;
+
+                // Top and bottom walls
+                if (y == 0 || y == GRID_Y - 1) {
+                    if (x == GRID_X - 1) {
+                        grid[index] = Y_SYMBOL;
+                        world += Y_SYMBOL;
+                        world += '\n';
+                    } else {
+                        grid[index] = Y_SYMBOL;
+                        world += Y_SYMBOL;
+                    }
+
+                // Right walls
+                } else if (x == GRID_X - 1) {
+                    grid[index] = X_SYMBOL;
+                    world += X_SYMBOL;
+                    world += '\n';
+
+                // Left walls
+                } else if (x == 0) {
+                    grid[index] = X_SYMBOL;
+                    world += X_SYMBOL;
+
+                // Inside the walls
                 } else {
-                    world[y][x] = Y_SYMBOL;
-                    cout << Y_SYMBOL;
+                    Object obj = objects[index];
+                    grid[index] = obj.symbol;
+                    world += obj.symbol;
                 }
+            } // width (x) loop
+        } // height (y) loop
 
-            } else if (x == WORLD_X - 1) {
-                world[y][x] = X_SYMBOL;
-                cout << X_SYMBOL << '\n';
+        std::cout << world;
+        world = "";
 
-            } else if (x == 0) {
-                world[y][x] = X_SYMBOL;
-                cout << X_SYMBOL;
+        break;
 
-            } else {
-                Object obj = objects[y][x];
-                world[y][x] = obj.symbol;
-                cout << obj.symbol;
-            }
-        }
-    }
+    } // main while loop
 
     return 0;
 }
